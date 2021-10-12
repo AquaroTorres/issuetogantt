@@ -12,8 +12,16 @@ class Issue extends Model
 
     public static function getAll() 
     {
+        /* 
+        Issue body template:     
+        
+        GanttStart: 2021-10-06
+        GanttDue: 2021-10-08
+        GanttProgress: 38% 
+        */
+
         $repos = explode(',',env('GITHUB_REPOS'));
-        $ct = 0;
+        $ct = 0; $resources = array(); $events = array();
 
         foreach($repos as $repo) 
         {
@@ -25,10 +33,6 @@ class Issue extends Model
             $headers = array('auth' => $auth);
             $response = $client->request('GET', "issues?state=all", $headers);
             $issues = json_decode($response->getBody());
-    
-            // GanttStart: 2021-10-06
-            // GanttDue: 2021-10-08
-            // GanttProgress: 38%
     
             foreach($issues as $key => $issue) {
                 /* Issue is not made by a bot or pull request */
@@ -103,7 +107,7 @@ class Issue extends Model
     }
 
     public static function getProgress($issue) {
-        /* Si esl issue está cerrado, se asume un 100% */
+        /* If issue is closed, then 100% of progress */
         if($issue->state == 'closed') return '100';
         else {
             preg_match_all('/GanttProgress: (?P<value>\d+)/', $issue->body, $result);

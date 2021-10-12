@@ -6,12 +6,12 @@
 			font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 			font-size: 14px;
 		}
-		#calendar {
+		#calendarByMilestone, #calendarByUser {
 			max-height: 800px;
 			margin: 40px auto;
 		}
-		#calendar .fc-day-sun, 
-		#calendar .fc-day-sat,
+		#calendarByMilestone .fc-day-sun, 
+		#calendarByMilestone .fc-day-sat,
 		#calendarByUser .fc-day-sun, 
 		#calendarByUser .fc-day-sat{
 			background-color: #cccccc;
@@ -22,7 +22,7 @@
 		}
 	</style>
     <div id='calendar-container' wire:ignore>
-        <div id='calendar'></div>
+        <div id='calendarByMilestone'></div>
         <div id='calendarByUser'></div>
     </div>
     
@@ -33,12 +33,11 @@
     <script>
         document.addEventListener('livewire:load', function () {
         
-            var calendarEl = document.getElementById('calendar');
-            var calendarE2 = document.getElementById('calendarByUser');
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                locale: 'es',
-                schedulerLicenseKey: '{{ env('SERIAL_FULLCALENDAR') }}',
+            var calendarEl = document.getElementById('calendarByMilestone');
+            
+            var calendarByMilestone = new FullCalendar.Calendar(calendarEl, {
+                locale: '{{ env('FULLCALENDAR_LOCALE') }}',
+                schedulerLicenseKey: '{{ env('FULLCALENDAR_SERIAL') }}',
                 timeZone: 'UTC',
                 initialView: 'resourceTimelineMonth',
                 //aspectRatio: 2,
@@ -52,15 +51,15 @@
                     {
                         group: true,
                         field: 'milestone',
-                        headerContent: 'Project - Milestone'
+                        headerContent: '{{ __('messages.project_milestone') }}'
                     },
                     {
                         field: 'title',
-                        headerContent: 'Issue'
+                        headerContent: '{{ __('messages.issue') }}'
                     },
                     {
                         field: 'assignees',
-                        headerContent: 'Assigees'
+                        headerContent: '{{ __('messages.assignees') }}'
                     }
                 ],
                 //resources: 'https://fullcalendar.io/demo-resources.json?with-nesting&with-colors',
@@ -72,9 +71,13 @@
                 eventDrop: info => @this.eventDrop(info.event, info.oldEvent)
             });
 
+            calendarByMilestone.render();
+
+            var calendarE2 = document.getElementById('calendarByUser');
+
             var calendarByUser = new FullCalendar.Calendar(calendarE2, {
-                locale: 'es',
-                schedulerLicenseKey: '{{ env('SERIAL_FULLCALENDAR') }}',
+                locale: '{{ env('FULLCALENDAR_LOCALE') }}',
+                schedulerLicenseKey: '{{ env('FULLCALENDAR_SERIAL') }}',
                 timeZone: 'UTC',
                 initialView: 'resourceTimelineMonth',
                 aspectRatio: 2,
@@ -88,15 +91,15 @@
                     {
                         group: true,
                         field: 'assignees',
-                        headerContent: 'Assignees'
+                        headerContent: '{{ __('messages.assignees') }}'
                     },
                     {
                         field: 'title',
-                        headerContent: 'Issue'
+                        headerContent: '{{ __('messages.issue') }}'
                     },
                     {
                         field: 'milestone',
-                        headerContent: 'Project - Milestone'
+                        headerContent: '{{ __('messages.project_milestone') }}'
                     }
                 ],
                 //resources: 'https://fullcalendar.io/demo-resources.json?with-nesting&with-colors',
@@ -107,7 +110,6 @@
                 eventResize: info => @this.eventResize(info.event, info.oldEvent),
                 eventDrop: info => @this.eventDrop(info.event, info.oldEvent)
             });
-            calendar.render();
 
             calendarByUser.render();
         });
