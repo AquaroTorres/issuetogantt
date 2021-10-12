@@ -16,16 +16,16 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: 'es',
-                schedulerLicenseKey: '0404885988-fcs-1582214203',
+                schedulerLicenseKey: '{{ env('SERIAL_FULLCALENDAR') }}',
                 timeZone: 'UTC',
                 initialView: 'resourceTimelineMonth',
-                aspectRatio: 2,
+                //aspectRatio: 2,
                 headerToolbar: {
                     left: 'prev,next',
                     center: 'title'
                 },
+                nowIndicator: true,
                 editable: true,
-                //resourceAreaHeaderContent: 'Dias',
                 resourceAreaColumns: [
                     {
                         group: true,
@@ -60,8 +60,8 @@
                     left: 'prev,next',
                     center: 'title'
                 },
+                nowIndicator: true,
                 editable: true,
-                //resourceAreaHeaderContent: 'Dias',
                 resourceAreaColumns: [
                     {
                         group: true,

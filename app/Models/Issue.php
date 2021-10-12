@@ -9,7 +9,6 @@ use GuzzleHttp\Client;
 class Issue extends Model
 {
     use HasFactory;
-    //public $endpoint=env('GITHUB_REPO');
 
     public static function getAll() 
     {
@@ -47,7 +46,7 @@ class Issue extends Model
                 $events[$key]['color'] = 'green';
             }
             else {
-                $events[$key]['color'] = 'orange';
+                $events[$key]['color'] = '#4285f4';
             }
         }
 
