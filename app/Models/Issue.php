@@ -12,42 +12,56 @@ class Issue extends Model
 
     public static function getAll() 
     {
-        $client = new Client(['base_uri' => "https://api.github.com/repos/".env('GITHUB_REPO')."/".env('GITHUB_PROJECT')."/" ]);
-        $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
+        $repos = explode(',',env('GITHUB_REPOS'));
+        $ct = 0;
 
-        $headers = array('auth' => $auth);
-        $response = $client->request('GET', "issues?state=all", $headers);
-        $issues = json_decode($response->getBody());
+        foreach($repos as $repo) 
+        {
+            list($account,$project) = explode('/',$repo);
 
-        // GanttStart: 2021-10-06
-        // GanttDue: 2021-10-08
-        // GanttProgress: 38%
-
-        foreach($issues as $key => $issue) {
-            /* Issue is not made by a bot or pull request */
-            if($issue->user->type != 'Bot' AND !property_exists($issue,'pull_request')) {       
-                $resources[$key]['milestone'] = ($issue->milestone) ? $issue->milestone->title : 'Sin milestone';
-                $resources[$key]['id'] = $issue->id;
-                $resources[$key]['title'] =  $issue->title;
-                $events[$key]['id'] = $issue->number;
-                $events[$key]['resourceId'] = $issue->id;
-                $events[$key]['title'] = Issue::getProgress($issue) . '% - #'.$issue->number;
-                $events[$key]['start'] = Issue::getStart($issue);
-                $events[$key]['end'] = Issue::getDue($issue);
-                if($issue->assignees) {
-                    foreach($issue->assignees as $assign) {
-                        $resources[$key]['assignees'] = $assign->login;
+            $client = new Client(['base_uri' => "https://api.github.com/repos/".$repo."/" ]);
+        
+            $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
+            $headers = array('auth' => $auth);
+            $response = $client->request('GET', "issues?state=all", $headers);
+            $issues = json_decode($response->getBody());
+    
+            // GanttStart: 2021-10-06
+            // GanttDue: 2021-10-08
+            // GanttProgress: 38%
+    
+            foreach($issues as $key => $issue) {
+                /* Issue is not made by a bot or pull request */
+                if($issue->user->type != 'Bot' AND !property_exists($issue,'pull_request')) {       
+                    $resources[$ct]['milestone'] = 
+                        ($issue->milestone) ? 
+                        $project .  " - " .  $issue->milestone->title:
+                        $project .  " - " ;
+                    $resources[$ct]['id'] = $issue->id;
+                    $resources[$ct]['title'] =  $issue->title;
+                    $events[$ct]['id'] = $issue->number;
+                    $events[$ct]['resourceId'] = $issue->id;
+                    $events[$ct]['title'] = Issue::getProgress($issue) . '% - #'.$issue->number;
+                    $events[$ct]['start'] = Issue::getStart($issue);
+                    $events[$ct]['end'] = Issue::getDue($issue);
+                    $events[$ct]['repo'] = $repo;
+                    if($issue->assignees) {
+                        foreach($issue->assignees as $assign) {
+                            $resources[$ct]['assignees'] = $assign->login;
+                        }
                     }
+                    $events[$ct]['color'] = (Issue::getProgress($issue) == 100) ? 'green' : '#4285f4';
+                    $ct++;
                 }
-                $events[$key]['color'] = (Issue::getProgress($issue) == 100) ? 'green' : '#4285f4';
             }
         }
-        return ['events' => array_values($events), 'resources' => array_values($resources)];
+
+        return ['events' => $events, 'resources' => $resources];
     }
 
-    public static function getOne($number)
+    public static function getOne($repo,$number)
     {
-        $client = new Client(['base_uri' => "https://api.github.com/repos/".env('GITHUB_REPO')."/".env('GITHUB_PROJECT')."/" ]);
+        $client = new Client(['base_uri' => "https://api.github.com/repos/".$repo."/" ]);
         $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
         $headers = array('auth' => $auth);
         $response = $client->request('GET', "issues/$number", $headers);
@@ -56,8 +70,8 @@ class Issue extends Model
 
     public static function updateEvent($event)
     {
-        debug($event);
-        $issue = Issue::getOne($event['id']);
+        $repo = $event['extendedProps']['repo'];
+        $issue = Issue::getOne($repo,$event['id']);
         
         $patron = '/GanttStart: (?P<value>\d{4}-\d{2}-\d{2})/';
         $sustitucion = 'GanttStart: '.$event['start'];
@@ -67,9 +81,7 @@ class Issue extends Model
         $sustitucion = 'GanttDue: '.$event['end'];
         $issue->body = preg_replace($patron, $sustitucion, $issue->body);
 
-        debug($issue->body);
-        
-        $client = new Client(['base_uri' => "https://api.github.com/repos/".env('GITHUB_REPO')."/".env('GITHUB_PROJECT')."/" ]);
+        $client = new Client(['base_uri' => "https://api.github.com/repos/".$repo."/" ]);
         $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
 
         $headers = array(

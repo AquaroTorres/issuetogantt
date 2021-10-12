@@ -18,7 +18,7 @@
 		}
 		.fc-toolbar .fc-toolbar-title:before {
 			float: right;
-			content: ' - {{ env('GITHUB_PROJECT') }}';
+			content: ' - {{ env('GITHUB_REPOS') }}';
 		}
 	</style>
     <div id='calendar-container' wire:ignore>
@@ -52,15 +52,15 @@
                     {
                         group: true,
                         field: 'milestone',
-                        headerContent: 'Milestones'
+                        headerContent: 'Project - Milestone'
                     },
                     {
                         field: 'title',
-                        headerContent: 'Issues'
+                        headerContent: 'Issue'
                     },
                     {
                         field: 'assignees',
-                        headerContent: 'Assigess'
+                        headerContent: 'Assigees'
                     }
                 ],
                 //resources: 'https://fullcalendar.io/demo-resources.json?with-nesting&with-colors',
@@ -88,15 +88,15 @@
                     {
                         group: true,
                         field: 'assignees',
-                        headerContent: 'Usuario'
+                        headerContent: 'Assignees'
                     },
                     {
                         field: 'title',
-                        headerContent: 'Evento'
+                        headerContent: 'Issue'
                     },
                     {
                         field: 'milestone',
-                        headerContent: 'Milestone:'
+                        headerContent: 'Project - Milestone'
                     }
                 ],
                 //resources: 'https://fullcalendar.io/demo-resources.json?with-nesting&with-colors',
