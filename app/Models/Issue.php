@@ -16,7 +16,7 @@ class Issue extends Model
         $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
 
         $headers = array('auth' => $auth);
-        $response = $client->request('GET', "issues?state=open", $headers);
+        $response = $client->request('GET', "issues?state=all", $headers);
         $issues = json_decode($response->getBody());
 
         // GanttStart: 2021-10-06
@@ -24,34 +24,25 @@ class Issue extends Model
         // GanttProgress: 38%
 
         foreach($issues as $key => $issue) {
-            if($issue->milestone) {
-                $resources[$key]['milestone'] = $issue->milestone->title;
-            }
-            else {
-                $resources[$key]['milestone'] = "Sin milestone";
-            }
-            $resources[$key]['id'] = $issue->id;
-            $resources[$key]['title'] = $issue->title;
-            $events[$key]['id'] = $issue->number;
-            $events[$key]['resourceId'] = $issue->id;
-            $events[$key]['title'] = Issue::getProgress($issue) . '%';
-            $events[$key]['start'] = Issue::getStart($issue);
-            $events[$key]['end'] = Issue::getDue($issue);
-            if($issue->assignees) {
-                foreach($issue->assignees as $assign) {
-                    $resources[$key]['assignees'] = $assign->login;
+            /* Issue is not from a bot */
+            if($issue->user->type != 'Bot') {       
+                $resources[$key]['milestone'] = ($issue->milestone) ? $issue->milestone->title : 'Sin milestone';
+                $resources[$key]['id'] = $issue->id;
+                $resources[$key]['title'] = $issue->number. '-'.$issue->title;
+                $events[$key]['id'] = $issue->number;
+                $events[$key]['resourceId'] = $issue->id;
+                $events[$key]['title'] = Issue::getProgress($issue) . '%';
+                $events[$key]['start'] = Issue::getStart($issue);
+                $events[$key]['end'] = Issue::getDue($issue);
+                if($issue->assignees) {
+                    foreach($issue->assignees as $assign) {
+                        $resources[$key]['assignees'] = $assign->login;
+                    }
                 }
-            }
-            if(Issue::getProgress($issue) == 100) {
-                $events[$key]['color'] = 'green';
-            }
-            else {
-                $events[$key]['color'] = '#4285f4';
+                $events[$key]['color'] = (Issue::getProgress($issue) == 100) ? 'green' : '#4285f4';
             }
         }
-
-        debug($events);
-        return ['events' => $events, 'resources' => $resources];
+        return ['events' => array_values($events), 'resources' => array_values($resources)];
     }
 
     public static function getOne($number)
