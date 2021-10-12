@@ -2,9 +2,13 @@
 
 Allow to view your Github Issues on a Gantt Chart, you can resize or drag the event from the calendar.
 
-## Screenshot by User
-![image](https://user-images.githubusercontent.com/33440322/136994346-d5971f27-91f9-495b-954f-8ed2fd7a50f8.png)
+## Screenshot by Milestone
 
+![image](https://user-images.githubusercontent.com/33440322/137028838-4c25e7c4-c904-47b9-b610-b296814b094a.png)
+
+## Screenshot by User
+
+![image](https://user-images.githubusercontent.com/33440322/136994346-d5971f27-91f9-495b-954f-8ed2fd7a50f8.png)
 
 ## Installation
 
