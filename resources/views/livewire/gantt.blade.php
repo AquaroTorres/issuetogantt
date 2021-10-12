@@ -1,4 +1,26 @@
 <div>
+    <style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+			font-size: 14px;
+		}
+		#calendar {
+			max-height: 800px;
+			margin: 40px auto;
+		}
+		#calendar .fc-day-sun, 
+		#calendar .fc-day-sat,
+		#calendarByUser .fc-day-sun, 
+		#calendarByUser .fc-day-sat{
+			background-color: #cccccc;
+		}
+		.fc-toolbar .fc-toolbar-title:before {
+			float: right;
+			content: ' - {{ env('GITHUB_PROJECT') }}';
+		}
+	</style>
     <div id='calendar-container' wire:ignore>
         <div id='calendar'></div>
         <div id='calendarByUser'></div>
@@ -34,11 +56,11 @@
                     },
                     {
                         field: 'title',
-                        headerContent: 'Evento'
+                        headerContent: 'Issues'
                     },
                     {
                         field: 'assignees',
-                        headerContent: 'Asignado a:'
+                        headerContent: 'Assigess'
                     }
                 ],
                 //resources: 'https://fullcalendar.io/demo-resources.json?with-nesting&with-colors',

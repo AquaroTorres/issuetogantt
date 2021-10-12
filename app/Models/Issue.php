@@ -12,7 +12,7 @@ class Issue extends Model
 
     public static function getAll() 
     {
-        $client = new Client(['base_uri' => env('GITHUB_REPO')]);
+        $client = new Client(['base_uri' => "https://api.github.com/repos/".env('GITHUB_REPO')."/".env('GITHUB_PROJECT')."/" ]);
         $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
 
         $headers = array('auth' => $auth);
@@ -24,14 +24,14 @@ class Issue extends Model
         // GanttProgress: 38%
 
         foreach($issues as $key => $issue) {
-            /* Issue is not from a bot */
-            if($issue->user->type != 'Bot') {       
+            /* Issue is not made by a bot or pull request */
+            if($issue->user->type != 'Bot' AND !property_exists($issue,'pull_request')) {       
                 $resources[$key]['milestone'] = ($issue->milestone) ? $issue->milestone->title : 'Sin milestone';
                 $resources[$key]['id'] = $issue->id;
-                $resources[$key]['title'] = $issue->number. '-'.$issue->title;
+                $resources[$key]['title'] =  $issue->title;
                 $events[$key]['id'] = $issue->number;
                 $events[$key]['resourceId'] = $issue->id;
-                $events[$key]['title'] = Issue::getProgress($issue) . '%';
+                $events[$key]['title'] = Issue::getProgress($issue) . '% - #'.$issue->number;
                 $events[$key]['start'] = Issue::getStart($issue);
                 $events[$key]['end'] = Issue::getDue($issue);
                 if($issue->assignees) {
@@ -47,7 +47,7 @@ class Issue extends Model
 
     public static function getOne($number)
     {
-        $client = new Client(['base_uri' => env('GITHUB_REPO')]);
+        $client = new Client(['base_uri' => "https://api.github.com/repos/".env('GITHUB_REPO')."/".env('GITHUB_PROJECT')."/" ]);
         $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
         $headers = array('auth' => $auth);
         $response = $client->request('GET', "issues/$number", $headers);
@@ -69,7 +69,7 @@ class Issue extends Model
 
         debug($issue->body);
         
-        $client = new Client(['base_uri' => env('GITHUB_REPO')]);
+        $client = new Client(['base_uri' => "https://api.github.com/repos/".env('GITHUB_REPO')."/".env('GITHUB_PROJECT')."/" ]);
         $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
 
         $headers = array(
