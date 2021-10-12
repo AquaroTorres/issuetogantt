@@ -15,4 +15,4 @@ Allow to view your Github Issues on a Gantt Chart
 
 ## Author
 
-@AquaroTorres
+@AquaroTorres alias el Terror de Huatacondo
