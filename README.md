@@ -14,7 +14,7 @@ Allow to view your Github Issues on a Gantt Chart, you can resize or drag the ev
 
 - $ git clone
 - $ composer install
-- $ cp .env-example .env
+- $ cp .env.example .env
 - $ php artisan key:generate
 - edit .env and set GITHUB parameters
 - $ php artisan serve
