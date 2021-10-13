@@ -18,7 +18,7 @@
 		}
 		.fc-toolbar .fc-toolbar-title:before {
 			float: right;
-			content: ' - {{ cache('gh_repos') }}';
+			content: ' - {{ session('gh_repos') }}';
 		}
 	</style>
     <div id='calendar-container' wire:ignore>

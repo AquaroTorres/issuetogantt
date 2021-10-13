@@ -7,12 +7,16 @@ use Illuminate\Support\Facades\Cache;
 
 class GanttController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (Cache::has('gh_token') AND Cache::has('gh_user') AND Cache::has('gh_repos')) {
+        if ($request->session()->has('gh_token') AND 
+            $request->session()->has('gh_user') AND 
+            $request->session()->has('gh_repos')) 
+        {
             return view('gantt');
         }
-        else {
+        else 
+        {
             return redirect()->route('config.create');
         }
     }
