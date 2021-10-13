@@ -13,7 +13,6 @@ class ConfigController extends Controller
     
     public function store(Request $request) 
     {
-
         session(['gh_user'  => $request->input('gh_user')]);
         session(['gh_token' => $request->input('gh_token')]);
         session(['gh_repos' => $request->input('gh_repos')]);
