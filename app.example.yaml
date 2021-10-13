@@ -1,0 +1,39 @@
+service: issuetogantt
+runtime: php73
+env: standard
+
+runtime_config:
+  document_root: public
+
+#automatic_scaling:
+  #min_num_instances: 1
+
+env_variables:
+  ## Put production environment variables here.
+  APP_NAME: "Issue To Gantt"
+  APP_ENV: production
+  APP_KEY: base64:FnlCGCgq2OzVVCHIgXQqp0104D4UuVfnreTK3G0DsiY=
+  APP_DEBUG: true
+  DEBUGBAR_ENABLED: false
+  APP_URL:
+
+  FULLCALENDAR_SERIAL:
+  FULLCALENDAR_LOCALE: es
+  GITHUB_USER: aquarotorres
+  GITHUB_TOKEN:
+  #GITHUB_REPOS=repo1/project1,repo2/project2
+  GITHUB_REPOS: aquarotorres/issuetogantt
+
+  APP_STORAGE: /tmp
+  VIEW_COMPILED_PATH: /tmp
+  APP_LOG: errorlog
+
+  CACHE_DRIVER: database
+  SESSION_DRIVER: cookie
+
+  ## Set these environment variables according to your CloudSQL configuration.
+  #DB_HOST: localhost
+  #DB_DATABASE:
+  #DB_USERNAME:
+  #DB_PASSWORD:
+  #DB_SOCKET:
