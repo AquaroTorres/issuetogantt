@@ -20,7 +20,7 @@ class Issue extends Model
         GanttProgress: 38% 
         */
 
-        $repos = explode(',',env('GITHUB_REPOS'));
+        $repos = explode(',',cache('gh_repos'));
         $ct = 0; $resources = array(); $events = array();
 
         foreach($repos as $repo) 
@@ -29,7 +29,7 @@ class Issue extends Model
 
             $client = new Client(['base_uri' => "https://api.github.com/repos/".$repo."/" ]);
         
-            $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
+            $auth = array(cache('gh_user'), cache('gh_token'));
             $headers = array('auth' => $auth);
             $response = $client->request('GET', "issues?state=all", $headers);
             $issues = json_decode($response->getBody());
@@ -66,7 +66,7 @@ class Issue extends Model
     public static function getOne($repo,$number)
     {
         $client = new Client(['base_uri' => "https://api.github.com/repos/".$repo."/" ]);
-        $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
+        $auth = array(cache('gh_user'), cache('gh_token'));
         $headers = array('auth' => $auth);
         $response = $client->request('GET', "issues/$number", $headers);
         return json_decode($response->getBody());
@@ -86,7 +86,7 @@ class Issue extends Model
         $issue->body = preg_replace($patron, $sustitucion, $issue->body);
 
         $client = new Client(['base_uri' => "https://api.github.com/repos/".$repo."/" ]);
-        $auth = array(env('GITHUB_USER'), env('GITHUB_TOKEN'));
+        $auth = array(cache('gh_user'), cache('gh_token'));
 
         $headers = array(
             'auth' => $auth,

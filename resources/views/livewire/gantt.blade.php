@@ -18,7 +18,7 @@
 		}
 		.fc-toolbar .fc-toolbar-title:before {
 			float: right;
-			content: ' - {{ env('GITHUB_REPOS') }}';
+			content: ' - {{ cache('gh_repos') }}';
 		}
 	</style>
     <div id='calendar-container' wire:ignore>
