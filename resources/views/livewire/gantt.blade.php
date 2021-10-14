@@ -25,7 +25,7 @@
         <div id='calendarByMilestone'></div>
         <div id='calendarByUser'></div>
     </div>
-    
+</div>
     @push('scripts')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.5.0/main.min.css">
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.5.0/main.min.js'></script>
@@ -45,6 +45,11 @@
                     left: 'prev,next',
                     center: 'title'
                 },
+                contentHeight: 'auto',
+                slotLabelFormat: [
+                    { day: 'numeric' }, // top level of text
+                    { weekday: 'narrow' } // lower level of text
+                ],
                 nowIndicator: true,
                 editable: true,
                 resourceAreaColumns: [
@@ -80,11 +85,16 @@
                 schedulerLicenseKey: '{{ env('FULLCALENDAR_SERIAL') }}',
                 timeZone: 'UTC',
                 initialView: 'resourceTimelineMonth',
-                aspectRatio: 2,
+                // aspectRatio: 2,
                 headerToolbar: {
                     left: 'prev,next',
                     center: 'title'
                 },
+                contentHeight: 'auto',
+                slotLabelFormat: [
+                    { day: 'numeric' }, // top level of text
+                    { weekday: 'narrow' } // lower level of text
+                ],
                 nowIndicator: true,
                 editable: true,
                 resourceAreaColumns: [
