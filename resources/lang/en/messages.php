@@ -17,4 +17,5 @@ return [
     'github_repos' => 'Repos',
     'logout' => 'Logout',
     'template' => 'Issue template',
+    'worng_project' => 'Wrong Project?',
 ];

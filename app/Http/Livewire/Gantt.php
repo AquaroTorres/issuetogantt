@@ -13,22 +13,19 @@ class Gantt extends Component
 
     public function getEvents()
     {
-        if (app()->environment('local')) { debug('getevents'); }
+        //if (app()->environment('local')) { debug('getevents'); }
         $issues = Issue::getAll();
         $this->resources = json_encode($issues['resources']);
         $this->events = json_encode($issues['events']);
-        //debug($this->events);
     }
 
     public function eventDrop($event, $oldEvent)
     {
-        //debug("eventDrop");
         Issue::updateEvent($event);
     }
 
     public function eventResize($event, $oldEvent)
     {
-        //debug("eventResize");
         Issue::updateEvent($event);
     }
 

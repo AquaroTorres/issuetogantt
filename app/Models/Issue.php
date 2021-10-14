@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class Issue extends Model
 {
@@ -31,7 +32,13 @@ class Issue extends Model
         
             $auth = array(session('gh_user'), session('gh_token'));
             $headers = array('auth' => $auth);
-            $response = $client->request('GET', "issues?state=all", $headers);
+            try {
+                $response = $client->request('GET', "issues?state=all", $headers);
+            } catch (RequestException $e) {
+                echo '<h2>Error: '.__('messages.worng_project'). ' '. $repo . '</h2><br>';
+                die($e->getMessage());
+            }
+            
             $issues = json_decode($response->getBody());
     
             foreach($issues as $key => $issue) {

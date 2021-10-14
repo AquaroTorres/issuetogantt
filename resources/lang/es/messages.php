@@ -17,4 +17,5 @@ return [
     'github_repos' => 'Repos',
     'logout' => 'Cerrar sesión',
     'template' => 'Plantilla de Propuesta',
+    'worng_project' => '¿Proyecto correcto?',
 ];
