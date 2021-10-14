@@ -8,13 +8,17 @@ runtime_config:
 #automatic_scaling:
   #min_num_instances: 1
 
+handlers:
+- url: /images
+  static_dir: public/images
+
 env_variables:
   ## Put production environment variables here.
   APP_NAME: "Issue To Gantt"
   APP_ENV: production
   APP_KEY: 
   APP_DEBUG: true
-  APP_URL: 
+  APP_URL: http://issuetogantt.test
   DEBUGBAR_ENABLED: false
 
   APP_STORAGE: /tmp
