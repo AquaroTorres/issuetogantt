@@ -15,4 +15,6 @@ return [
     'github_user' => 'Usuario',
     'github_token' => 'Token',
     'github_repos' => 'Repos',
+    'logout' => 'Cerrar sesión',
+    'template' => 'Plantilla de Propuesta',
 ];
