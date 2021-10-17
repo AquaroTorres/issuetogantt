@@ -7,7 +7,8 @@
 			font-size: 14px;
 		}
 		#calendarByMilestone, #calendarByUser {
-			max-height: 800px;
+			max-height:650px;
+            overflow:auto;
 			margin: 40px auto;
 		}
 		#calendarByMilestone .fc-day-sun, 
