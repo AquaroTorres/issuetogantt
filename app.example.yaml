@@ -5,10 +5,11 @@ env: standard
 runtime_config:
   document_root: public
 
-#automatic_scaling:
-  #min_num_instances: 1
-
 handlers:
+- url: /.*
+  secure: always
+  redirect_http_response_code: 301
+  script: auto
 - url: /images
   static_dir: public/images
 
@@ -30,3 +31,6 @@ env_variables:
 
   FULLCALENDAR_SERIAL: 
   FULLCALENDAR_LOCALE: es
+
+#automatic_scaling:
+  #min_num_instances: 1
