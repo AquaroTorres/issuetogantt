@@ -5,28 +5,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Issue to Gantt</title>
+    <style type="text/css">
+        table.center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        html, body {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <form method="post" action="{{ route('config.store') }}">
+    <form method="post" action="{{ route('config.store') }}" style="text-align: center">
         @csrf
         @method('POST')
-        <h2>{{ __('messages.configuration') }}</h2>
-        <table>
+        <h2 style="text-align: center">{{ __('messages.configuration') }}</h2>
+        <table class="center">
             <tr>
                 <td><label for="">{{ __('messages.github_user') }}</label></td>
                 <td><input type="text" name="gh_user" required size="50"></td>
             </tr>
             <tr>
                 <td><label for="">{{ __('messages.github_token') }}</label></td>
-                <td><input type="text" name="gh_token" required size="50"></td>
+                <td><input type="text" name="gh_token" required size="50" placeholder="Personal access token"></td>
             </tr>
             <tr>
                 <td><label for="">{{ __('messages.github_repos') }}</label></td>
                 <td><input type="text" name="gh_repos" required size="50" placeholder="repo1/project1,repo2/project2,..."></td>
             </tr>
+            <tr>
+                <td><label for="">{{ __('messages.github_repos') }}</label></td>
+            </tr>
         </table>
-        <input type="submit" value="Guardar">
+        <br><br>
+        <input type="submit" value="{{ __('messages.save') }}">
     </form>
-</html>
+
+    <p style="text-align: center">
+		<strong>{{ __('messages.template') }}:</strong><br>
+			GanttStart: 2021-10-07 <br>
+            GanttDue: 2021-10-15 <br>
+            GanttProgress: 69%
+	</p>
+
 </body>
 </html>

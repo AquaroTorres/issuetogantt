@@ -15,7 +15,8 @@ return [
     'github_user' => 'Usuario',
     'github_token' => 'Token',
     'github_repos' => 'Repos',
+    'save' => 'Guardar',
     'logout' => 'Cerrar sesión',
-    'template' => 'Plantilla de Propuesta',
+    'template' => 'Plantilla de propuesta',
     'worng_project' => '¿Proyecto correcto?',
 ];

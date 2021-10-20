@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GanttController;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Route::get('/', [GanttController::class,'index'])->name('index');
 Route::get('/config', [ConfigController::class,'create'])->name('config.create');
 Route::post('/config', [ConfigController::class,'store'])->name('config.store');
 Route::delete('/config', [ConfigController::class,'delete'])->name('config.delete');
+
+Route::get('/test/sendip',[TestController::class,'sendIp']);

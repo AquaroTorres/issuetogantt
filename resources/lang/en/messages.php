@@ -15,7 +15,8 @@ return [
     'github_user' => 'User',
     'github_token' => 'Token',
     'github_repos' => 'Repos',
+    'save' => 'Save',
     'logout' => 'Logout',
     'template' => 'Issue template',
-    'worng_project' => 'Wrong Project?',
+    'worng_project' => 'Wrong project?',
 ];
