@@ -53,15 +53,11 @@
                 ],
                 nowIndicator: true,
                 editable: true,
-                resourceAreaColumns: [
-                    {
-                        group: true,
-                        field: 'milestone',
-                        headerContent: '{{ __('messages.project_milestone') }}'
-                    },
+                resourceGroupField: 'project',
+                    resourceAreaColumns: [
                     {
                         field: 'title',
-                        headerContent: '{{ __('messages.issue') }}'
+                        headerContent: '{{ __('messages.project_milestone') }} - {{ __('messages.issue') }}' 
                     },
                     {
                         field: 'assignees',
@@ -106,11 +102,7 @@
                     },
                     {
                         field: 'title',
-                        headerContent: '{{ __('messages.issue') }}'
-                    },
-                    {
-                        field: 'milestone',
-                        headerContent: '{{ __('messages.project_milestone') }}'
+                        headerContent: '{{ __('messages.project_milestone') }} - {{ __('messages.issue') }}'
                     }
                 ],
                 //resources: 'https://fullcalendar.io/demo-resources.json?with-nesting&with-colors',

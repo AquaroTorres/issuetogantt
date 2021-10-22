@@ -43,31 +43,40 @@ class Issue extends Model
     
             foreach($issues as $key => $issue) {
                 /* Issue is not made by a bot or pull request */
-                if($issue->user->type != 'Bot' AND !property_exists($issue,'pull_request')) {       
-                    $resources[$ct]['milestone'] = 
-                        ($issue->milestone) ? 
-                        $project .  " - " .  $issue->milestone->title:
-                        $project .  " - " ;
-                    $resources[$ct]['id'] = $issue->id;
-                    $resources[$ct]['title'] =  $issue->title;
+                if($issue->user->type != 'Bot' AND !property_exists($issue,'pull_request')) { 
+                    if($issue->assignees) {
+                        $assignees = implode(', ', array_column($issue->assignees, 'login'));
+                    } 
+                    if($issue->milestone) {
+                        $resources[$issue->milestone->id]['id'] = $issue->milestone->id;
+                        $resources[$issue->milestone->id]['project'] = $project;
+                        $resources[$issue->milestone->id]['title'] =  $issue->milestone->title;
+                        $resources[$issue->milestone->id]['children'][] = [
+                            "id" => $issue->id,
+                            "title"=> $issue->title,
+                            "assignees"=> $assignees
+                        ];
+                        // $issue->milestone->due_on  end of milestone
+                    }
+                    else {
+                        $resources[$ct]['id'] = $issue->id;
+                        $resources[$ct]['project'] = $project;
+                        $resources[$ct]['title'] =  $issue->title;
+                        $resources[$ct]['assignees'] = $assignees;
+                    }
+
                     $events[$ct]['id'] = $issue->number;
                     $events[$ct]['resourceId'] = $issue->id;
                     $events[$ct]['title'] = Issue::getProgress($issue) . '% - #'.$issue->number;
                     $events[$ct]['start'] = Issue::getStart($issue);
                     $events[$ct]['end'] = Issue::getDue($issue);
                     $events[$ct]['repo'] = $repo;
-                    if($issue->assignees) {
-                        foreach($issue->assignees as $assign) {
-                            $resources[$ct]['assignees'] = $assign->login;
-                        }
-                    }
                     $events[$ct]['color'] = (Issue::getProgress($issue) == 100) ? 'green' : '#4285f4';
                     $ct++;
                 }
             }
         }
-
-        return ['events' => $events, 'resources' => $resources];
+        return ['events' => $events, 'resources' => array_values($resources)];
     }
 
     public static function getOne($repo,$number)

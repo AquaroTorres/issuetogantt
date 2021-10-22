@@ -34,9 +34,6 @@
                 <td><label for="">{{ __('messages.github_repos') }}</label></td>
                 <td><input type="text" name="gh_repos" required size="50" placeholder="repo1/project1,repo2/project2,..."></td>
             </tr>
-            <tr>
-                <td><label for="">{{ __('messages.github_repos') }}</label></td>
-            </tr>
         </table>
         <br><br>
         <input type="submit" value="{{ __('messages.save') }}">
