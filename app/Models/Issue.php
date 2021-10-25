@@ -44,9 +44,9 @@ class Issue extends Model
             foreach($issues as $key => $issue) {
                 /* Issue is not made by a bot or pull request */
                 if($issue->user->type != 'Bot' AND !property_exists($issue,'pull_request')) { 
-                    if($issue->assignees) {
-                        $assignees = implode(', ', array_column($issue->assignees, 'login'));
-                    } 
+
+                    $assignees = ($issue->assignees) ? implode(', ', array_column($issue->assignees, 'login')) : null;
+
                     if($issue->milestone) {
                         $resources[$issue->milestone->id]['id'] = $issue->milestone->id;
                         $resources[$issue->milestone->id]['project'] = $project;
