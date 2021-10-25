@@ -43,9 +43,11 @@
 
 	@livewire('gantt-by-user')
 
-	<p style="text-align: center">
-		<strong>{{ __('messages.template') }}:</strong>
-			GanttStart: 2021-10-07 GanttDue: 2021-10-15 GanttProgress: 69%
+    <p style="text-align: center">
+		<strong>{{ __('messages.template') }}:</strong><br>
+			GanttStart: 2021-10-07 <br>
+            GanttDue: 2021-10-15 <br>
+            GanttProgress: 69%
 	</p>
 
 	@livewireScripts
