@@ -20,7 +20,8 @@ use App\Http\Controllers\TestController;
 //     return view('welcome');
 // });
 
-Route::get('/', [GanttController::class,'index'])->name('index');
+Route::get('/', [GanttController::class,'indexByProject'])->name('indexByProject');
+Route::get('/byUser', [GanttController::class,'indexByUser'])->name('indexByUser');
 
 Route::get('/config', [ConfigController::class,'create'])->name('config.create');
 Route::post('/config', [ConfigController::class,'store'])->name('config.store');

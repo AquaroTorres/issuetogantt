@@ -56,6 +56,14 @@ class Issue extends Model
                             "title"=> $issue->title,
                             "assignees"=> $assignees
                         ];
+                        $events[$issue->milestone->id]['id'] = $issue->number;
+                        $events[$issue->milestone->id]['resourceId'] = $issue->milestone->id;
+                        $events[$issue->milestone->id]['title'] = 'Milestone';
+                        $events[$issue->milestone->id]['start'] = $issue->milestone->due_on;
+                        $events[$issue->milestone->id]['end'] = $issue->milestone->due_on;
+                        $events[$issue->milestone->id]['repo'] = $repo;
+                        $events[$issue->milestone->id]['color'] = 'orange';
+                        $events[$issue->milestone->id]['editable'] = false;
                         // $issue->milestone->due_on  end of milestone
                     }
                     else {
@@ -71,12 +79,13 @@ class Issue extends Model
                     $events[$ct]['start'] = Issue::getStart($issue);
                     $events[$ct]['end'] = Issue::getDue($issue);
                     $events[$ct]['repo'] = $repo;
-                    $events[$ct]['color'] = (Issue::getProgress($issue) == 100) ? 'green' : '#4285f4';
+                    $events[$ct]['color'] = (Issue::getProgress($issue) == 100) ? 'green' : 'blue';
                     $ct++;
                 }
             }
         }
-        return ['events' => $events, 'resources' => array_values($resources)];
+        //debug(array_values($events));
+        return ['events' => array_values($events), 'resources' => array_values($resources)];
     }
 
     public static function getOne($repo,$number)

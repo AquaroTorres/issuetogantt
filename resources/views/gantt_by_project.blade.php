@@ -35,9 +35,13 @@
 				</form>
 			</td>
 		</tr>
+		<tr>
+			<td><a href="{{ route('indexByProject') }}">Gantt By Project</a></td>
+			<td><a href="{{ route('indexByUser') }}">Gantt By User</td>
+		</tr>
 	</table>
 
-	<livewire:gantt />
+	@livewire('gantt-by-project')
 
 	<p style="text-align: center">
 		<strong>{{ __('messages.template') }}:</strong>

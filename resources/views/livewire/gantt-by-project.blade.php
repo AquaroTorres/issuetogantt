@@ -6,25 +6,23 @@
 			font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 			font-size: 14px;
 		}
-		#calendarByMilestone, #calendarByUser {
-			max-height:650px;
+		#calendarByProject {
             overflow:auto;
 			margin: 40px auto;
 		}
-		#calendarByMilestone .fc-day-sun, 
-		#calendarByMilestone .fc-day-sat,
-		#calendarByUser .fc-day-sun, 
-		#calendarByUser .fc-day-sat{
+		#calendarByProject .fc-day-sun, 
+		#calendarByProject .fc-day-sat,
+        {
 			background-color: #cccccc;
 		}
 		.fc-toolbar .fc-toolbar-title:before {
 			float: right;
-			content: ' - {{ session('gh_repos') }}';
+			/* content: ' - {{ session('gh_repos') }}'; */
 		}
 	</style>
+    
     <div id='calendar-container' wire:ignore>
-        <div id='calendarByMilestone'></div>
-        <div id='calendarByUser'></div>
+        <div id='calendarByProject'></div>
     </div>
 </div>
     @push('scripts')
@@ -34,9 +32,9 @@
     <script>
         document.addEventListener('livewire:load', function () {
         
-            var calendarEl = document.getElementById('calendarByMilestone');
+            var calendarEl = document.getElementById('calendarByProject');
             
-            var calendarByMilestone = new FullCalendar.Calendar(calendarEl, {
+            var calendarByProject = new FullCalendar.Calendar(calendarEl, {
                 locale: '{{ env('FULLCALENDAR_LOCALE') }}',
                 schedulerLicenseKey: '{{ env('FULLCALENDAR_SERIAL') }}',
                 timeZone: 'UTC',
@@ -73,48 +71,8 @@
                 eventDrop: info => @this.eventDrop(info.event, info.oldEvent)
             });
 
-            calendarByMilestone.render();
+            calendarByProject.render();
 
-            var calendarE2 = document.getElementById('calendarByUser');
-
-            var calendarByUser = new FullCalendar.Calendar(calendarE2, {
-                locale: '{{ env('FULLCALENDAR_LOCALE') }}',
-                schedulerLicenseKey: '{{ env('FULLCALENDAR_SERIAL') }}',
-                timeZone: 'UTC',
-                initialView: 'resourceTimelineMonth',
-                // aspectRatio: 2,
-                headerToolbar: {
-                    left: 'prev,next',
-                    center: 'title'
-                },
-                contentHeight: 'auto',
-                slotLabelFormat: [
-                    { day: 'numeric' }, // top level of text
-                    { weekday: 'narrow' } // lower level of text
-                ],
-                nowIndicator: true,
-                editable: true,
-                resourceAreaColumns: [
-                    {
-                        group: true,
-                        field: 'assignees',
-                        headerContent: '{{ __('messages.assignees') }}'
-                    },
-                    {
-                        field: 'title',
-                        headerContent: '{{ __('messages.project_milestone') }} - {{ __('messages.issue') }}'
-                    }
-                ],
-                //resources: 'https://fullcalendar.io/demo-resources.json?with-nesting&with-colors',
-                resources: JSON.parse(@this.resources),
-                //events: 'https://fullcalendar.io/demo-events.json?single-day&for-resource-timeline'
-                events: JSON.parse(@this.events),
-
-                eventResize: info => @this.eventResize(info.event, info.oldEvent),
-                eventDrop: info => @this.eventDrop(info.event, info.oldEvent)
-            });
-
-            calendarByUser.render();
         });
     </script>
     @endpush

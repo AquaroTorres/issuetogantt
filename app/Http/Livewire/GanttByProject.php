@@ -6,7 +6,7 @@ use Livewire\Component;
 use GuzzleHttp\Client;
 use App\Models\Issue;
 
-class Gantt extends Component
+class GanttByProject extends Component
 {
     public $resources = '';
     public $events = '';
@@ -36,6 +36,6 @@ class Gantt extends Component
 
     public function render()
     {
-        return view('livewire.gantt');
+        return view('livewire.gantt-by-project');
     }
 }
