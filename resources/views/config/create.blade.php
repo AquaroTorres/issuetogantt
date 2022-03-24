@@ -17,6 +17,8 @@
     </style>
 </head>
 <body>
+    <h1 style="text-align: center">Issue to Gantt</h1>
+    
     <form method="post" action="{{ route('config.store') }}" style="text-align: center">
         @csrf
         @method('POST')
